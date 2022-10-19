@@ -1,28 +1,27 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" style="padding: 5rem;">
+    <vue-progress-bar></vue-progress-bar>
+    <button class="btn btn-primary" @click="LoadData()">Load</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  methods: {
+    LoadData(){
+      this.$Progress.start()
+      this.$http.get('https://jsonplaceholder.typicode.com/photos')
+      .then((response) => {
+        console.log(response.data)
+          this.$Progress.finish()
+      }, (response) => {
+          this.$Progress.fail()
+          console.log(response)
+      })
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
